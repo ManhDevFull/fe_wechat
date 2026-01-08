@@ -2,13 +2,13 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Device & PWA Detector",
-    short_name: "PWA Detector",
-    description: "Detect device type and PWA mode.",
+    name: "VieChat - Nền tảng thuần Việt",
+    short_name: "VieChat",
+    description: "Nền tảng mạng xã hội cho người Việt",
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#111827",
+    background_color: "#dc2626",
+    theme_color: "#dc2626",
     icons: [
       {
         src: "/icons/android-chrome-192x192.png",

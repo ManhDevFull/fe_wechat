@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import HeaderComponent from "../layout/desktop/HeaderLayout";
+import FooterLayout from "../layout/desktop/FooterLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,12 +15,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Device & PWA Detector",
-  description: "Detect device type and PWA mode.",
+  title: "VieChat - Nền tảng thuần Việt",
+  description: "Nền tảng mạng xã hội cho người Việt",
   manifest: "/manifest.webmanifest",
-  themeColor: "#111827",
+  themeColor: "#dc2626",
   icons: {
     icon: [
+      {
+        url: "/favicon.ico",
+      },
       {
         url: "/icons/android-chrome-192x192.png",
         sizes: "192x192",
@@ -50,6 +55,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <HeaderComponent />
         {children}
       </body>
     </html>
