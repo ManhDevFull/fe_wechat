@@ -3,7 +3,7 @@ import React from "react";
 
 export default function LoginPage() {
   return (
-    <div className="bg-gray-50 min-h-[calc(100vh-67.5px)] flex items-center justify-center px-4 py-12">
+    <div className="bg-gray-50 min-h-[calc(100vh-72px)] flex items-center justify-center px-4 py-12">
       <div
         className="-mt-30 w-full max-w-md rounded-2xl border border-gray-200 bg-[#00000005] p-8 shadow-lg"
         id="form-login"
