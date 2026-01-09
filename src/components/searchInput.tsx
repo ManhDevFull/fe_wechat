@@ -2,16 +2,32 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SearchInput = () => {
+type SearchInputProps = {
+  inputRef?: React.Ref<HTMLInputElement>;
+  open?: boolean;
+  autoFocus?: boolean;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+};
+
+const SearchInput = ({ inputRef, open, autoFocus, onBlur }: SearchInputProps) => {
   return (
     <StyledWrapper>
-      <div className="group">
+      <div className="group" data-open={open ? 'true' : undefined}>
         <svg viewBox="0 0 24 24" aria-hidden="true" className="search-icon">
           <g>
             <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z" />
           </g>
         </svg>
-        <input id="query" className="input" type="search" placeholder="Search..." name="searchbar" />
+        <input
+          id="query"
+          className="input"
+          type="search"
+          placeholder="Search..."
+          name="searchbar"
+          ref={inputRef}
+          autoFocus={autoFocus}
+          onBlur={onBlur}
+        />
       </div>
     </StyledWrapper>
   );
@@ -99,7 +115,8 @@ const StyledWrapper = styled.div`
       transform: translateX(-50%);
     }
 
-    .group:focus-within {
+    .group:focus-within,
+    .group[data-open="true"] {
       position: fixed;
       left: 12px;
       right: 12px;
@@ -108,7 +125,8 @@ const StyledWrapper = styled.div`
       z-index: 60;
     }
 
-    .group:focus-within .input {
+    .group:focus-within .input,
+    .group[data-open="true"] .input {
       width: 100%;
       padding-left: 2.5rem;
       background-color: #16171d;
@@ -116,11 +134,13 @@ const StyledWrapper = styled.div`
       color: #bdbecb;
     }
 
-    .group:focus-within .input::placeholder {
+    .group:focus-within .input::placeholder,
+    .group[data-open="true"] .input::placeholder {
       color: #bdbecb;
     }
 
-    .group:focus-within .search-icon {
+    .group:focus-within .search-icon,
+    .group[data-open="true"] .search-icon {
       left: 1rem;
       transform: none;
     }
