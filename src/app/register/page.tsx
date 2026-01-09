@@ -30,14 +30,14 @@ export default function RegisterPage() {
           </div>
           <div className="space-y-2">
             <label
-              htmlFor="email"
+              htmlFor="sdt"
               className="font-medium text-gray-700 text-sm"
             >
-              Email
+             Số điện thoại
             </label>
             <input
-              id="email"
-              name="email"
+              id="sdt"
+              name="sdt"
               placeholder="Số điện thoại"
               className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
             />

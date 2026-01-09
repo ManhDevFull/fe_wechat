@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function ReelsPage() {
   return (
-    <div>ReelsPage</div>
+    <div className='text-black bg-white min-h-screen'>ReelsPage</div>
   )
 }

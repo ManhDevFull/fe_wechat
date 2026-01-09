@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function ChatPage() {
   return (
-    <div>ChatPage</div>
+    <div className='bg-white min-h-screen'>ChatPage</div>
   )
 }
