@@ -1,5 +1,6 @@
 import { ChatUser, MessageChat } from "@/src/types/ITypes";
 import React from "react";
+import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoChevronBackSharp } from "react-icons/io5";
 type ThreadChat = {
   user: ChatUser;
@@ -20,8 +21,9 @@ export default function ThreadChat(props: Props) {
       }`}
       onClick={(event) => event.stopPropagation()}
     >
-      <div className="flex sticky z-52 py-2 px-2 shadow-lg">
-        <div
+      <div className="flex sticky z-52 py-2 px-2 pr-4 shadow-lg items-center justify-between">
+        <div className="flex">
+            <div
           onClick={onBack}
           className="w-12 h-12 mr-2 flex items-center justify-center"
         >
@@ -48,6 +50,11 @@ export default function ThreadChat(props: Props) {
               {thread?.user.status ? "Đang hoạt động" : "Hoạt động 10p trước"}
             </p>
           </div>
+        </div>
+        </div>
+        
+        <div className="w-12 h-12 flex items-center justify-center">
+          <FaEllipsisVertical size={28} color="#00000099" />
         </div>
       </div>
     </div>
