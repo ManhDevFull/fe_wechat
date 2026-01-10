@@ -14,61 +14,61 @@ export default function MobileChatPage() {
   const [friendsOnl, setFriendsOnl] = useState([
     {
       id: "u1",
-      name: "Nguyễn Văn A",
+      name: "Nguyễn Văn Mạnh",
       avt: "https://i.pravatar.cc/150?img=1",
       status: true,
     },
     {
       id: "u2",
-      name: "Trần Thị B",
+      name: "Trần Thị Cứt",
       avt: "https://i.pravatar.cc/150?img=5",
       status: true,
     },
     {
       id: "u3",
-      name: "Lê Văn C",
+      name: "Lê Văn An",
       avt: "https://i.pravatar.cc/150?img=8",
       status: true,
     },
     {
       id: "u4",
-      name: "Lê Văn C",
+      name: "Lê Văn",
       avt: "https://i.pravatar.cc/150?img=8",
       status: true,
     },
     {
       id: "u5",
-      name: "Lê Văn C",
+      name: "Lê Văn Gia",
       avt: "https://i.pravatar.cc/150?img=8",
       status: true,
     },
     {
       id: "u6",
-      name: "Lê Văn C",
+      name: "Lê Văn Linh",
       avt: "https://i.pravatar.cc/150?img=8",
       status: true,
     },
     {
       id: "u7",
-      name: "Lê Văn C",
+      name: "Lê Văn Cây",
       avt: "https://i.pravatar.cc/150?img=8",
       status: true,
     },
     {
       id: "u8",
-      name: "Lê Văn C",
+      name: "Lê Văn Cối",
       avt: "https://i.pravatar.cc/150?img=8",
       status: true,
     },
     {
       id: "u9",
-      name: "Lê Văn C",
+      name: "Lê Văn Um",
       avt: "https://i.pravatar.cc/150?img=8",
       status: true,
     },
     {
       id: "u10",
-      name: "Lê Văn C",
+      name: "Lê Văn Xùm",
       avt: "https://i.pravatar.cc/150?img=8",
       status: true,
     },
@@ -403,7 +403,7 @@ export default function MobileChatPage() {
 
   return (
     <div className="relative">
-      <div className="sticky top-0 z-40 bg-white px-5 py-2 flex justify-between items-center shadow-lg">
+      <div className="sticky top-0 z-2 bg-white px-5 py-2 flex justify-between items-center shadow-lg">
         <h3 className="text-2xl text-[#00000098] font-semibold">
           Đoạn hội thoại
         </h3>
@@ -422,7 +422,7 @@ export default function MobileChatPage() {
           className="flex overflow-x-auto overflow-y-hidden hide-scrollbar"
         >
           {friendsOnl.map((frd) => (
-            <div key={frd.id} className="pl-4 shrink-0">
+            <div key={frd.id} className="px-4 shrink-0">
               <img
                 src={frd.avt}
                 className="w-15 rounded-full drop-shadow-lg border-2 border-[#77db78]"
