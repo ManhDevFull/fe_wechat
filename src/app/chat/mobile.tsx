@@ -3,13 +3,33 @@ import { useState } from "react";
 import MenuIcon from "@/src/ui/iconMenu";
 import ChatNav from "@/src/components/chatNav";
 import { ChatUser, MessageChat } from "@/src/types/ITypes";
+import { getLastName } from "@/src/utils/getName";
 type ThreadChat = {
   user: ChatUser;
   thread: MessageChat[];
 };
 export default function MobileChatPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [friendsOnl, setFriendsOnl] = useState()
+  const [friendsOnl, setFriendsOnl] = useState([
+    {
+      id: "u1",
+      name: "Nguyễn Văn A",
+      avt: "https://i.pravatar.cc/150?img=1",
+      status: true,
+    },
+    {
+      id: "u2",
+      name: "Trần Thị B",
+      avt: "https://i.pravatar.cc/150?img=5",
+      status: true,
+    },
+    {
+      id: "u3",
+      name: "Lê Văn C",
+      avt: "https://i.pravatar.cc/150?img=8",
+      status: true,
+    },
+  ]);
   const [chatList, setChatList] = useState<ThreadChat[]>([
     {
       user: {
@@ -109,10 +129,27 @@ export default function MobileChatPage() {
           />
         </div>
       </div>
-      <div className="text-black">Friends Online</div>
+      <div className="text-black py-2 px-4 border-b border-b-[#00000010]">
+        <h2 className="text-lg text-[#342d2d] pb-3">Ban be dang hoat dong</h2>
+        <div className="flex">
+          {friendsOnl.map((frd) => (
+            <div key={frd.id} className="px-2">
+              <img
+                src={frd.avt}
+                className="w-15 rounded-full drop-shadow-lg border-2 border-[#77db78]"
+                alt={frd.name}
+              />
+              <p className="text-center">{getLastName(frd.name)}</p>
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="text-black">
         {chatList.map((chatThread: ThreadChat) => (
-          <div key={chatThread.user.id} className="flex border-b border-b-[#00000010] px-4 py-2 hover:bg-gray-100">
+          <div
+            key={chatThread.user.id}
+            className="flex border-b border-b-[#00000010] px-4 py-2 hover:bg-gray-100"
+          >
             <img src={chatThread.user.avt} className="w-13 rounded-[9999px]" />
             <div className="pl-2">
               <h5>{chatThread.user.name}</h5>
