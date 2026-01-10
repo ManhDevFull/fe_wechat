@@ -4,11 +4,14 @@ import MenuIcon from "@/src/ui/iconMenu";
 import ChatNav from "@/src/components/chatNav";
 import { ChatUser, MessageChat } from "@/src/types/ITypes";
 import { getLastName } from "@/src/utils/getName";
+import ThreadChat from "./ThreadChat";
 type ThreadChat = {
   user: ChatUser;
   thread: MessageChat[];
 };
 export default function MobileChatPage() {
+  const [isOpenChat, setIsOpenChat] = useState(false)
+  const [threadChat, setThreadChat] = useState<ThreadChat | undefined>(undefined)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const friendsScrollRef = useRef<HTMLDivElement | null>(null);
   const [friendsOnl, setFriendsOnl] = useState([
@@ -402,7 +405,7 @@ export default function MobileChatPage() {
   }, []);
 
   return (
-    <div className="relative">
+    <><div className="relative">
       <div className="sticky top-0 z-2 bg-white px-5 py-2 flex justify-between items-center shadow-lg">
         <h3 className="text-2xl text-[#00000098] font-semibold">
           Đoạn hội thoại
@@ -437,12 +440,13 @@ export default function MobileChatPage() {
         {chatList.map((chatThread: ThreadChat) => (
           <div
             key={chatThread.user.id}
+            onClick={()=> {setIsOpenChat(true); setThreadChat(chatThread)}}
             className="flex border-b border-b-[#00000010] px-4 py-2 hover:bg-gray-100"
           >
             <div className="relative">
               <img
                 src={chatThread.user.avt}
-                className="w-13 rounded-[9999px]"
+                className="w-13 h-13 rounded-[9999px]"
                 alt={chatThread.user.name}
               />
               <span
@@ -461,6 +465,9 @@ export default function MobileChatPage() {
         ))}
       </div>
       <ChatNav open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+    <ThreadChat open={isOpenChat} thread={threadChat} onBack={()=>{setIsOpenChat(false)}} />
     </div>
+    </>
+    
   );
 }
