@@ -440,7 +440,7 @@ export default function MobileChatPage() {
           ))}
         </div>
       </div>
-      <div className="text-black">
+      <div className="text-black pb-20">
         {chatList.map((chatThread: ThreadChat) => (
           <div
             key={chatThread.user.id}

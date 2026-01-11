@@ -69,13 +69,12 @@ const MessageInput = () => {
 const StyledWrapper = styled.div`
   /* wrapper: full width */
   width: 100%;
-  padding: 10px 12px;
-  border-top: 1px solid #eee;
-  background: #fff;
+  padding: 5px 8px;
+  background: #00000000;
 
   .messageBox {
     width: 100%;
-    height: 55px; /* ✅ cao ~55px */
+    height: 50px; /* ✅ cao ~55px */
     display: flex;
     align-items: center;
     gap: 10px;
