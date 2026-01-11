@@ -5,6 +5,7 @@ import ChatNav from "@/src/components/chatNav";
 import { ChatUser, MessageChat } from "@/src/types/ITypes";
 import { getLastName } from "@/src/utils/getName";
 import ThreadChat from "./ThreadChat";
+import { useBackClose } from "@/src/hooks/useBackClose";
 type ThreadChat = {
   user: ChatUser;
   thread: MessageChat[];
@@ -14,6 +15,9 @@ export default function MobileChatPage() {
   const [threadChat, setThreadChat] = useState<ThreadChat | undefined>(undefined)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const friendsScrollRef = useRef<HTMLDivElement | null>(null);
+
+  // Use hardware/browser back to close the thread panel before leaving the page.
+  useBackClose(isOpenChat, () => setIsOpenChat(false));
   const [friendsOnl, setFriendsOnl] = useState([
     {
       id: "u1",
