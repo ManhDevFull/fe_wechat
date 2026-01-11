@@ -4,6 +4,7 @@ import MessageInput from "@/src/ui/messageInput";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { getLastName } from "@/src/utils/getName";
+import { useBackClose } from "@/src/hooks/useBackClose";
 
 type ThreadChatType = {
   user: ChatUser;
@@ -18,6 +19,7 @@ interface Props {
 
 export default function ThreadChat(props: Props) {
   const { thread, open, onBack } = props;
+  const [isOption, setIsOption] = useState(false);
   const onClose = () => {
     if (isOption) {
       setIsOption(false);
@@ -25,7 +27,7 @@ export default function ThreadChat(props: Props) {
       onBack();
     }
   };
-  const [isOption, setIsOption] = useState(false);
+  useBackClose(isOption, () => setIsOption(false));
   return (
     <div
       className={`
