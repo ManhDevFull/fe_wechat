@@ -129,7 +129,7 @@ export default function MobileChatPage() {
         },
         {
           id: "m4",
-          content: "Ok, 7h tối nhé 👍",
+          content: "Ok, 7h tối nhé <3",
           imgs: "",
           userFrom: "me",
           userTo: "u2",
