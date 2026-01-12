@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChatUser, MessageChat } from "@/src/types/ITypes";
 import MessageInput from "@/src/ui/messageInput";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { getLastName } from "@/src/utils/getName";
 import { useBackClose } from "@/src/hooks/useBackClose";
+import { useKeyboardInset } from "@/src/hooks/useKeyboardInset";
 
 type ThreadChatType = {
   user: ChatUser;
@@ -20,6 +21,7 @@ interface Props {
 export default function ThreadChat(props: Props) {
   const { thread, open, onBack } = props;
   const [isOption, setIsOption] = useState(false);
+  const keyboardInset = useKeyboardInset(open && !isOption);
   const onClose = () => {
     if (isOption) {
       setIsOption(false);
@@ -28,14 +30,28 @@ export default function ThreadChat(props: Props) {
     }
   };
   useBackClose(isOption, () => setIsOption(false));
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    // Prevent body scroll so the header/input stay stable when the keyboard opens.
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open]);
   return (
     <div
       className={`
-        fixed inset-0 z-[51] bg-white
+        fixed left-0 top-0 w-full h-[100dvh] z-[51] bg-white
         shadow-2xl transform transition-transform duration-300 ease-out
         flex flex-col overflow-hidden min-h-0
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
+      // h-[100dvh] + keyboard inset keeps layout stable across mobile keyboards.
+      style={{ paddingBottom: keyboardInset }}
       onClick={(event) => event.stopPropagation()}
     >
       {/* Header */}
@@ -92,7 +108,7 @@ export default function ThreadChat(props: Props) {
       </div>
       {/* Menu */}
       {isOption ? (
-        <div className="text-black flex-1 min-h-0 overflow-y-auto px-4 pt-3 pb-2 flex flex-col gap-2">
+        <div className="text-black flex-1 min-h-0 overflow-y-auto overscroll-contain hide-scrollbar px-4 pt-3 pb-2 flex flex-col gap-2">
           <p>Tùy chỉnh biệt danh</p>
           <p>Thông tin về đoạn chat</p>
           <p>Đổi chủ đề</p>
@@ -103,7 +119,7 @@ export default function ThreadChat(props: Props) {
           <p>Tạo nhóm với {thread?.user && getLastName(thread?.user.name)}</p>
         </div>
       ) : (
-        <div className="flex-1 min-h-0 overflow-y-auto px-4 pt-3 pb-2 flex flex-col gap-2">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain hide-scrollbar px-4 pt-3 pb-2 flex flex-col gap-2">
           {thread?.thread.map((chat) => {
             // ✅ Sửa lại điều kiện: tin nhắn của mình thường là userFrom === "me"
             const isMe = chat.userFrom === "me";
