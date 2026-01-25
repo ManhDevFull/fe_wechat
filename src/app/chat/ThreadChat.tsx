@@ -6,14 +6,27 @@ import { IoChevronBackSharp } from "react-icons/io5";
 import { getLastName } from "@/src/utils/getName";
 import { useBackClose } from "@/src/hooks/useBackClose";
 import { useKeyboardInset } from "@/src/hooks/useKeyboardInset";
+type GroupMember = ChatUser;
 
-type ThreadChatType = {
-  user: ChatUser;
+type ChatPeer =
+  | (ChatUser & { kind?: "dm" })
+  | {
+      kind: "group";
+      id: string;
+      name: string;
+      avt: string;
+      status: boolean;
+      statusFriend?: boolean;
+      members: GroupMember[];
+      createdBy?: string;
+    };
+type ThreadChat = {
+  user: ChatPeer;
   thread: MessageChat[];
 };
 
 interface Props {
-  thread: ThreadChatType | undefined;
+  thread: ThreadChat | undefined;
   onBack: () => void;
   open: boolean;
 }

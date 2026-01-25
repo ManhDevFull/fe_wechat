@@ -6,18 +6,37 @@ import { ChatUser, MessageChat } from "@/src/types/ITypes";
 import { getLastName } from "@/src/utils/getName";
 import ThreadChat from "./ThreadChat";
 import { useBackClose } from "@/src/hooks/useBackClose";
+
+type GroupMember = ChatUser;
+
+type ChatPeer =
+  | (ChatUser & { kind?: "dm" })
+  | {
+      kind: "group";
+      id: string;
+      name: string;
+      avt: string;
+      status: boolean;
+      statusFriend?: boolean;
+      members: GroupMember[];
+      createdBy?: string;
+    };
+
 type ThreadChat = {
-  user: ChatUser;
+  user: ChatPeer;
   thread: MessageChat[];
 };
+
 export default function MobileChatPage() {
-  const [isOpenChat, setIsOpenChat] = useState(false)
-  const [threadChat, setThreadChat] = useState<ThreadChat | undefined>(undefined)
+  const [isOpenChat, setIsOpenChat] = useState(false);
+  const [threadChat, setThreadChat] = useState<ThreadChat | undefined>(
+    undefined
+  );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const friendsScrollRef = useRef<HTMLDivElement | null>(null);
 
-  // Use hardware/browser back to close the thread panel before leaving the page.
   useBackClose(isOpenChat, () => setIsOpenChat(false));
+
   const [friendsOnl, setFriendsOnl] = useState([
     {
       id: "u1",
@@ -80,6 +99,7 @@ export default function MobileChatPage() {
       status: true,
     },
   ]);
+
   const [chatList, setChatList] = useState<ThreadChat[]>([
     {
       user: {
@@ -88,6 +108,7 @@ export default function MobileChatPage() {
         avt: "https://i.pravatar.cc/150?img=1",
         statusFriend: true,
         status: true, // online
+        kind: "dm",
       },
       thread: [
         {
@@ -114,11 +135,78 @@ export default function MobileChatPage() {
     },
     {
       user: {
+        id: "g1",
+        name: "Nhóm đồ án Microservices",
+        avt: "https://api.dicebear.com/7.x/shapes/svg?seed=microservices",
+        statusFriend: true,
+        status: true,
+        kind: "group",
+        createdBy: "me",
+        members: [
+          {
+            id: "me",
+            name: "Bạn",
+            avt: "https://i.pravatar.cc/150?img=12",
+            statusFriend: true,
+            status: true,
+          },
+          {
+            id: "u2",
+            name: "Trần Thị B",
+            avt: "https://i.pravatar.cc/150?img=5",
+            statusFriend: true,
+            status: false,
+          },
+          {
+            id: "u3",
+            name: "Lê Văn C",
+            avt: "https://i.pravatar.cc/150?img=8",
+            statusFriend: true,
+            status: true,
+          },
+        ],
+      },
+      thread: [
+        {
+          id: "gm1",
+          content: "Tối nay 7h họp nhóm nhé mọi người",
+          imgs: "",
+          userFrom: "u2",
+          userTo: "g1",
+          status: true,
+          sendAt: "2026-01-09T11:00:00Z",
+          readAt: "",
+        },
+        {
+          id: "gm2",
+          content: "Ok, mình join đúng giờ 👌",
+          imgs: "",
+          userFrom: "me",
+          userTo: "g1",
+          status: true,
+          sendAt: "2026-01-09T11:02:00Z",
+          readAt: "",
+        },
+        {
+          id: "gm3",
+          content: "Nhớ chuẩn bị phần API Gateway nha",
+          imgs: "",
+          userFrom: "u3",
+          userTo: "g1",
+          status: true,
+          sendAt: "2026-01-09T11:03:00Z",
+          readAt: "",
+        },
+      ],
+    },
+    {
+      user: {
         id: "u2",
         name: "Trần Thị B",
         avt: "https://i.pravatar.cc/150?img=5",
         statusFriend: true,
         status: false, // offline
+        kind: "dm",
       },
       thread: [
         {
@@ -145,242 +233,55 @@ export default function MobileChatPage() {
     },
     {
       user: {
-        id: "u3",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
+        kind: "group",
+        id: "g2",
+        name: "Gia đình ❤️",
+        avt: "https://api.dicebear.com/7.x/shapes/svg?seed=family",
         status: true,
+        statusFriend: true,
+        members: [
+          {
+            id: "mom",
+            name: "Mẹ",
+            avt: "https://i.pravatar.cc/150?img=32",
+            statusFriend: true,
+            status: true,
+          },
+          {
+            id: "dad",
+            name: "Ba",
+            avt: "https://i.pravatar.cc/150?img=33",
+            statusFriend: true,
+            status: true,
+          },
+          {
+            id: "me",
+            name: "Bạn",
+            avt: "https://i.pravatar.cc/150?img=12",
+            statusFriend: true,
+            status: true,
+          },
+        ],
       },
       thread: [
         {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
+          id: "gf1",
+          content: "Con ăn cơm chưa?",
           imgs: "",
-          userFrom: "u3",
-          userTo: "me",
+          userFrom: "mom",
+          userTo: "g2",
           status: true,
-          sendAt: "2026-01-06T20:10:00Z",
+          sendAt: "2026-01-10T12:00:00Z",
           readAt: "",
         },
-      ],
-    },{
-      user: {
-        id: "u4",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
         {
-          id: "m7",
-          content: "Xin chào, mình muốn kết bạn",
+          id: "gf2",
+          content: "Dạ rồi ạ 😄",
           imgs: "",
-          userFrom: "u3",
-          userTo: "me",
+          userFrom: "me",
+          userTo: "g2",
           status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },
-    {
-      user: {
-        id: "u5",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m7",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "uf3",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "u3f",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "u3d",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "u3vss",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5sf",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "u3asdff",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "u3adfdgg",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "u3wweee",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "u3qqasw",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
-          readAt: "",
-        },
-      ],
-    },{
-      user: {
-        id: "u3aefff",
-        name: "Lê Văn C",
-        avt: "https://i.pravatar.cc/150?img=8",
-        statusFriend: false,
-        status: true,
-      },
-      thread: [
-        {
-          id: "m5",
-          content: "Xin chào, mình muốn kết bạn",
-          imgs: "",
-          userFrom: "u3",
-          userTo: "me",
-          status: true,
-          sendAt: "2026-01-06T20:10:00Z",
+          sendAt: "2026-01-10T12:01:00Z",
           readAt: "",
         },
       ],
@@ -389,15 +290,11 @@ export default function MobileChatPage() {
 
   useEffect(() => {
     const container = friendsScrollRef.current;
-    if (!container) {
-      return;
-    }
+    if (!container) return;
 
     const handleWheel = (event: WheelEvent) => {
       const delta = event.deltaY !== 0 ? event.deltaY : event.deltaX;
-      if (delta === 0) {
-        return;
-      }
+      if (delta === 0) return;
       event.preventDefault();
       container.scrollLeft += delta;
     };
@@ -409,69 +306,84 @@ export default function MobileChatPage() {
   }, []);
 
   return (
-    <><div className="relative">
-      <div className="sticky top-0 z-2 bg-white px-5 py-2 flex justify-between items-center shadow-lg">
-        <h3 className="text-2xl text-[#00000098] font-semibold">
-          Đoạn hội thoại
-        </h3>
-        <div className="rounded-lg scale-70">
-          <MenuIcon
-            checked={isMenuOpen}
-            onChange={(event) => setIsMenuOpen(event.target.checked)}
-            ariaLabel="Mở menu chat"
-          />
+    <>
+      <div className="relative">
+        <div className="sticky top-0 z-2 bg-white px-5 py-2 flex justify-between items-center shadow-lg">
+          <h3 className="text-2xl text-[#00000098] font-semibold">
+            Đoạn hội thoại
+          </h3>
+          <div className="rounded-lg scale-70">
+            <MenuIcon
+              checked={isMenuOpen}
+              onChange={(event) => setIsMenuOpen(event.target.checked)}
+              ariaLabel="Mở menu chat"
+            />
+          </div>
         </div>
-      </div>
-      <div className="text-black py-2 border-b border-b-[#00000010]">
-        <h2 className="pl-4 text-lg text-[#342d2d] pb-3">Ban be dang hoat dong</h2>
-        <div
-          ref={friendsScrollRef}
-          className="flex overflow-x-auto overflow-y-hidden hide-scrollbar"
-        >
-          {friendsOnl.map((frd) => (
-            <div key={frd.id} className="px-4 shrink-0">
-              <img
-                src={frd.avt}
-                className="w-15 rounded-full drop-shadow-lg border-2 border-[#77db78]"
-                alt={frd.name}
-              />
-              <p className="text-center">{getLastName(frd.name)}</p>
+
+        <div className="text-black py-2 border-b border-b-[#00000010]">
+          <h2 className="pl-4 text-lg text-[#342d2d] pb-3">
+            Ban be dang hoat dong
+          </h2>
+          <div
+            ref={friendsScrollRef}
+            className="flex overflow-x-auto overflow-y-hidden hide-scrollbar"
+          >
+            {friendsOnl.map((frd) => (
+              <div key={frd.id} className="px-4 shrink-0">
+                <img
+                  src={frd.avt}
+                  className="w-15 rounded-full drop-shadow-lg border-2 border-[#77db78]"
+                  alt={frd.name}
+                />
+                <p className="text-center">{getLastName(frd.name)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="text-black pb-20">
+          {chatList.map((chatThread: ThreadChat) => (
+            <div
+              key={chatThread.user.id}
+              onClick={() => {
+                setIsOpenChat(true);
+                setThreadChat(chatThread);
+              }}
+              className="flex border-b border-b-[#00000010] px-4 py-2 hover:bg-gray-100"
+            >
+              <div className="relative">
+                <img
+                  src={chatThread.user.avt}
+                  className="w-13 h-13 rounded-[9999px]"
+                  alt={chatThread.user.name}
+                />
+                <span
+                  className={`absolute bottom-0 right-0 h-[13px] w-[13px] rounded-full border-2 border-white ${
+                    chatThread.user.status ? "bg-[#15d018]" : "bg-[#545353]"
+                  }`}
+                />
+              </div>
+              <div className="pl-2">
+                <h5>{chatThread.user.name}</h5>
+                <span className="text-[#00000099]">
+                  {chatThread.thread[chatThread.thread.length - 1].content}
+                </span>
+              </div>
             </div>
           ))}
         </div>
+
+        <ChatNav open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+
+        <ThreadChat
+          open={isOpenChat}
+          thread={threadChat}
+          onBack={() => {
+            setIsOpenChat(false);
+          }}
+        />
       </div>
-      <div className="text-black pb-20">
-        {chatList.map((chatThread: ThreadChat) => (
-          <div
-            key={chatThread.user.id}
-            onClick={()=> {setIsOpenChat(true); setThreadChat(chatThread)}}
-            className="flex border-b border-b-[#00000010] px-4 py-2 hover:bg-gray-100"
-          >
-            <div className="relative">
-              <img
-                src={chatThread.user.avt}
-                className="w-13 h-13 rounded-[9999px]"
-                alt={chatThread.user.name}
-              />
-              <span
-                className={`absolute bottom-0 right-0 h-[13px] w-[13px] rounded-full border-2 border-white ${
-                  chatThread.user.status ? "bg-[#15d018]" : "bg-[#545353]"
-                }`}
-              />
-            </div>
-            <div className="pl-2">
-              <h5>{chatThread.user.name}</h5>
-              <span className="text-[#00000099]">
-                {chatThread.thread[chatThread.thread.length - 1].content}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-      <ChatNav open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-    <ThreadChat open={isOpenChat} thread={threadChat} onBack={()=>{setIsOpenChat(false)}} />
-    </div>
     </>
-    
   );
 }
